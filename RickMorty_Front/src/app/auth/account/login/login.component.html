@@ -1,0 +1,27 @@
+<div class="bg-image">
+  <div class="wrapper">
+    <div class="login-wrap">
+      <div class="login-html">
+        <div class="login-form">
+          <div class="header">
+            <a [routerLink]="['/login']" routerLinkActive="active"><h3>Sign In</h3></a>
+            <a [routerLink]="['/register']" routerLinkActive="active"><h3>Sign up</h3></a>
+          </div>
+          <!-- <h3>Sign in</h3> -->
+          <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+            <div class="mb-4">
+              <label for="loginEmail" class="label">Email</label>
+              <input type="text" name="email" ngModel required #username="ngModel" id="loginEmail" placeholder="Enter Email" class="input">
+            </div>
+            <div class="mb-4">
+              <label for="loginPassword" class="label">Password</label>
+              <input type="password" name="password" ngModel required #password="ngModel"id="loginPassword" placeholder="Password" class="input">
+            </div>
+            <button type="submit" [disabled]="f.invalid" class="button">Sign In</button>
+            <div class="hr"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

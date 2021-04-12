@@ -1,0 +1,19 @@
+<nav>
+  <div>
+    <ul>
+      <li>
+        <a [routerLink]="['']" routerLinkActive="active"><img src="../../../../assets/img/indeks.png">Rick and Morty</a>
+      </li>
+      <li *ngIf="!authService.loggedIn();" >
+        <a [routerLink]="['register']" routerLinkActive="active"><i class="fas fa-address-card"></i>Sign up</a>
+      </li>
+      <li *ngIf="!authService.loggedIn();">
+        <a [routerLink]="['login']" routerLinkActive="active"><i class="fas fa-sign-in-alt"></i>Sign in</a>
+      </li>
+      <li *ngIf="authService.loggedIn();" >
+        <a [routerLink]="['']" (click)='logout()' routerLinkActive="active"><i class="fas fa-sign-out-alt"></i>Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+

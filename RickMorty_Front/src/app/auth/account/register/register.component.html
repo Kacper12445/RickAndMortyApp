@@ -1,0 +1,33 @@
+<div class="bg-image">
+  <div class="wrapper">
+    <div class="register-wrap">
+      <div class="register-html">
+        <div class="register-form">
+          <div class="header">
+            <a [routerLink]="['/login']" routerLinkActive="active"><h3>Sign In</h3></a>
+            <a [routerLink]="['/register']" routerLinkActive="active"><h3>Sign up</h3></a>
+          </div>
+          <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+            <div class="mb-4">
+              <label for="registerUsername" class="label">Username</label>
+              <input type="text" name="username" ngModel required #username="ngModel" id="registerUsername" placeholder="Enter username" class="input">
+            </div>
+            <div class="mb-4">
+              <label for="registerEmail" class="label">Email</label>
+              <input type="email" name="email" ngModel required #email="ngModel" id="registerEmail" placeholder="Enter email" class="input">
+            </div>
+            <div class="mb-4">
+              <label for="registerPassword" class="label">Password</label>
+              <input type="password" name="password" ngModel required #password="ngModel"id="registerPassword" placeholder="Password" class="input">
+            </div>
+            <button type="submit" [disabled]="f.invalid" class="button">Sign Up</button>
+            <div class="hr"></div>
+            <div class="foot-lnk mt-5">
+              <a [routerLink]="['/login']" routerLinkActive="active" class="label">Already Member?</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+<form #f="ngForm" (ngSubmit)="onSubmit(f)">
+  <div class="mb-4">
+    <label for="loginUsername" class="label">Username</label>
+    <input type="text" name="id" ngModel required #username="ngModel" id="id" placeholder="Enter character name" class="input">
+    <button type="submit" [disabled]="f.invalid" class="button">Search</button>
+  </div>
+</form>
