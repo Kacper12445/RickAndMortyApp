@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchService } from '../../services/search.service';
-import { IPagination } from '../../models/IPagination';
+import { Info, Pagination } from '../../models/Pagination';
+import { SerialCharacter } from '../../models/character';
 
 @Component({
   selector: 'app-library',
@@ -9,10 +10,23 @@ import { IPagination } from '../../models/IPagination';
 })
 export class LibraryComponent implements OnInit {
 
-  // pagination: IPagination;
+  info!: Info;
+
+  characters!: SerialCharacter[];
   constructor(private searchService: SearchService) { }
 
   ngOnInit(): void {
+    this.getCharacters();
+  }
+
+  getCharacters(): void {
+    this.searchService.getPagination().subscribe(response => {
+      this.info = response.info;
+      this.characters = response.results;
+      console.log('bla' + this.characters[0].name);
+    }, error => {
+      console.log(error);
+    });
   }
 
   // Pagination() {

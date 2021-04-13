@@ -1,6 +1,6 @@
 export interface Location {
-  name: string,
-  type: string,
-  dimension: string,
-  characters: string[]
+  name: string;
+  type: string;
+  dimension: string;
+  characters: string[];
 }

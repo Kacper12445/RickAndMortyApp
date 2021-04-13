@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from './../../../environments/environment';
-import { serialCharacter } from '../models/character';
-import { IPagination } from '../models/IPagination';
+import { SerialCharacter } from '../models/character';
+import { Pagination } from '../models/Pagination';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -11,23 +11,15 @@ import { Observable } from 'rxjs';
 export class SearchService {
 
   rmUrl = environment.RickAndMortyUrl;
-  // character: serialCharacter = {
-  //   name: '',
-  //   status: '',
-  //   gender: '',
-  //   species: '',
-  //   location: '',
-  //   imgUrl: '',
-  //   // episodes: []
-  // }
+
   constructor(private httpClient: HttpClient) { }
 
-  getHero(): Observable<serialCharacter> {
-    return this.httpClient.get<serialCharacter>(this.rmUrl + 'character');
+  getHero(): Observable<SerialCharacter> {
+    return this.httpClient.get<SerialCharacter>(this.rmUrl + 'character');
   }
 
-  getPagination(): Observable<IPagination> {
-    return this.httpClient.get<IPagination>(this.rmUrl);
+  getPagination(): Observable<Pagination> {
+    return this.httpClient.get<Pagination>(this.rmUrl + 'character');
   }
 
   // hero() {
