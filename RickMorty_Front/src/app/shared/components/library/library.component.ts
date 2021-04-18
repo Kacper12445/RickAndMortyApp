@@ -11,8 +11,8 @@ import { SerialCharacter } from '../../models/character';
 export class LibraryComponent implements OnInit {
 
   info!: Info;
-
   characters!: SerialCharacter[];
+
   constructor(private searchService: SearchService) { }
 
   ngOnInit(): void {
@@ -23,13 +23,25 @@ export class LibraryComponent implements OnInit {
     this.searchService.getPagination().subscribe(response => {
       this.info = response.info;
       this.characters = response.results;
-      console.log('bla' + this.characters[0].name);
+      // console.log(this.characters[0].name);
+      // console.log(this.info);
     }, error => {
       console.log(error);
     });
   }
 
-  // Pagination() {
+
+}
+
+
+
+
+
+
+
+
+
+ // Pagination() {
   //   this.searchService.getPagination().subscribe(data => this.pagination = {
   //     info.count: data.count,
   //     info.pages: data.pages,
@@ -40,5 +52,3 @@ export class LibraryComponent implements OnInit {
 
   //   })
   // }
-
-}

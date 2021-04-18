@@ -1,7 +1,36 @@
 
 <div class="wrap">
   <div class = "bg">
-    <a [routerLink]="['searching']" routerLinkActive="active" class="searching">Wyszukiwanie</a>
+    <a [routerLink]="['searching']" routerLinkActive="active" class="searching">Go to search hero</a>
+
   </div>
+</div>
+<div class="heroes">
+  <section class="library" >
+    <div class="hero" (click) = "searchService.addToLibrary()"
+    *ngFor="let character of characters">
+      <div class="img"><img src="{{character.image}}"></div>
+      <div class="info">
+        <div class="title">
+          <h1>{{character.name}}</h1>
+          <div class="status">
+           <p> {{character.status}} - {{character.species}} - {{character.gender}}</p>
+          </div>
+        </div>
+        <div class="origin">
+          <h1>Origin</h1>
+          <div class="place">
+            <p>{{character.origin.name}}</p>
+          </div>
+        </div>
+        <div class="location">
+          <h1>Location</h1>
+          <div class="place">
+            <p>{{character.location.name}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
 

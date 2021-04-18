@@ -1,8 +1,8 @@
 <nav>
   <div>
     <ul>
-      <li>
-        <a [routerLink]="['']" routerLinkActive="active"><img src="../../../../assets/img/indeks.png">Rick and Morty</a>
+      <li class="title">
+        <a class="title" [routerLink]="['']" routerLinkActive="active"><img src="../../../../assets/img/indeks.png">Rick and Morty</a>
       </li>
       <li *ngIf="!authService.loggedIn();" >
         <a [routerLink]="['register']" routerLinkActive="active"><i class="fas fa-address-card"></i>Sign up</a>

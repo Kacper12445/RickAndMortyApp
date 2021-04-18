@@ -1,7 +1,39 @@
-<form #f="ngForm" (ngSubmit)="onSubmit(f)">
-  <div class="mb-4">
-    <label for="loginUsername" class="label">Username</label>
-    <input type="text" name="id" ngModel required #username="ngModel" id="id" placeholder="Enter character name" class="input">
-    <button type="submit" [disabled]="f.invalid" class="button">Search</button>
+<div class="heroes">
+  <div class="search">
+    <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Search">
   </div>
-</form>
+  <section class="library" >
+    <div class="hero"
+    *ngFor="let character of characters | filter:searchText">
+      <div class="img">
+        <img src="{{character.image}}">
+      </div>
+      <div class="info">
+        <div class="title">
+          <div class="star"  *ngIf="authService.loggedIn()">
+            <i (click) = "searchService.addToLibrary(character)" class="fas fa-star"></i>
+          </div>
+          <h1>{{character.name}}</h1>
+          <div class="status">
+           <p> {{character.status}} - {{character.species}} - {{character.gender}}</p>
+          </div>
+        </div>
+        <div class="origin">
+          <h1>Origin</h1>
+          <div class="place">
+            <p>{{character.origin.name}}</p>
+          </div>
+        </div>
+        <div class="location">
+          <h1>Location</h1>
+          <div class="place">
+            <p>{{character.location.name}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <i class="fas fa-chevron-left" id="prev" (click)="switchPage($event)"></i>
+  <i class="fas fa-chevron-right" id="next" (click)="switchPage($event)"></i>
+</div>
+
