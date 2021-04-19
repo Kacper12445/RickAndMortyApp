@@ -1,10 +1,28 @@
 <div class="heroes">
+      <div class="searchForm">
+        <select required>
+          <option value="" disabled selected hidden>Search by</option>
+          <option (click)="getFilter($event)">Character</option>
+          <option (click)="getFilter($event)">Location</option>
+          <option (click)="getFilter($event)">Episode</option>
+        </select>
+        <div class="inputDiv" [formGroup]="FilterForm" *ngIf="this.filter">
+          <input (change)="createLink($event)" formControlName="name" name = "name" placeholder='name'>
+          <div *ngIf= "this.filter === 'character' " class="heroFilter">
+            <input (change)="createLink($event)"  formControlName="status" name = "status" placeholder='status'>
+            <input (change)="createLink($event)"  formControlName="species" name = "species" placeholder='species'>
+            <input (change)="createLink($event)"  formControlName="type" name = "type" placeholder='type'>
+            <input (change)="createLink($event)"  formControlName="gender" name = "gender" placeholder='gender'>
+        </div>
+        <button (click)="findHero()">search</button>
+        </div>
+      </div>
   <div class="search">
-    <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Search">
+    <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Search on this page">
   </div>
   <section class="library" >
     <div class="hero"
-    *ngFor="let character of characters | filter:searchText">
+    *ngFor="let character of characters  | filter:searchText let result of filterResult">
       <div class="img">
         <img src="{{character.image}}">
       </div>

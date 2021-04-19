@@ -5,30 +5,90 @@
   height: 200vh
   background-color: #24282F
   font-family: 'Poppins', sans-serif
+  .searchForm
+    position: relative
+    height: 50px
+    margin: 0 15px
+    display: flex
+    align-items: center
+    select
+      height: 60%
+      padding: 5px 20px
+      text-align: center
+      font-size: 16px
+      color: white
+      background: 0 0
+      border: 1px solid grey
+      margin-right: 10px
+      -webkit-appearance: none
+      -moz-appearance: none
+      border-color: yellow
+      border-radius: 10px
+      option
+        background-color: #24282F
+        color: white
+        border-radius: 50%
+        font-size: 14px
+        &:active
+          background-color: grey
+    button
+      border: solid 1px red
+      background: 0 0
+      color: orange
+      padding: 5px 20px
+      font-size: 15px
+      line-height: 15px
+      transition: .3s
+      margin-left: 10px
+      &:hover
+        font-size: 17px
+        padding: 7px 22px
+        color: yellow
+        border-color: yellow
+    .inputDiv
+      display: flex
+      justify-content: center
+      align-items: center
+      input
+        padding: 5px 0
+        font-size: 15px
+        border: 1px solid grey
+        background: transparent
+        color: white
+        text-align: center
+        margin: 5px
+        &:focus
+          border-color: orange
+        .heroFilter
+          display: flex
   .search
+    position: relative
     text-align: center
     height: 40px
+    margin: 10px 0
     input
+      position: absolute
       color: #eee
       background: 0 0
       border: 2px solid grey
-      line-height: 40px
       text-align: center
       font-size: 20px
       width: 20%
-      padding: 5px 0
+      padding: 10px 5px
       margin: 5px 0
-      height: 25px
+      height: 30px
       border-radius: 5px
-      padding: 4px
+      &:focus
+        border-color: orange
   .library
-    position: absolute
-    top: 50%
+    position: relative
+    // top: 50%
     left: 50%
-    transform: translate(-50%, -50%)
+    // transform: translate(-50%, -50%)
+    transform: translateX(-50%)
     border-radius: 10px
     width: 95%
-    height: 95%
+    height: 90%
     background-color: #3C3E44
 
     display: flex
@@ -36,7 +96,7 @@
     justify-content: space-around
     align-items: flex-start
     .hero
-      width: 26%
+      width: 30%
       height: 13%
       background-color: white
       border-radius: 10px

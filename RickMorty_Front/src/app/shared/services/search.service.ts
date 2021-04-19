@@ -12,14 +12,21 @@ export class SearchService {
 
   libraryCharacter: SerialCharacter[] = [];
   rmUrl = environment.RickAndMortyUrl;
+  heroUrl = this.rmUrl + 'character';
   constructor(private httpClient: HttpClient) { }
 
   getHero(): Observable<SerialCharacter> {
-    return this.httpClient.get<SerialCharacter>(this.rmUrl + 'character');
+    return this.httpClient.get<SerialCharacter>(this.heroUrl);
   }
 
   getPagination(index: number = 1): Observable<Pagination> {
-    return this.httpClient.get<Pagination>(this.rmUrl + `character/?page=${index}`);
+    return this.httpClient.get<Pagination>(this.heroUrl + `/?page=${index}`);
+  }
+
+
+  filterHero(link: string) {
+    console.log(link);
+    return this.httpClient.get<Pagination>(this.rmUrl + link)
   }
 
 
@@ -32,10 +39,6 @@ export class SearchService {
     this.libraryCharacter.push(e);
     console.log(this.libraryCharacter);
 
-  }
-
-  isAdded(e) {
-    console.log(e.target.name);
   }
 
 

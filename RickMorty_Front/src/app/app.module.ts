@@ -8,6 +8,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { SearchingPageComponent } from './pages/searching-page/searching-page.component';
 import { FormsModule } from '@angular/forms';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     SharedModule,
     AuthModule,
     FormsModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
