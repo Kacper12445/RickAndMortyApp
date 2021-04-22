@@ -1,10 +1,12 @@
 <div class="heroes">
   <div class="search">
-    <h1 (click) = "makeLibLink()">Klik</h1>
     <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Search on this page">
   </div>
+  <div class="showHeroes">
+    <button (click) = "makeLibLink()">Show my Library</button>
+  </div>
   <section class="library" >
-    <div class="hero" *ngFor="let character of libHeroes  | filter:searchText">
+    <div class="hero" *ngFor="let character of libHeroes | filter:searchText ">
       <div class="img">
         <img src="{{character.image}}">
       </div>
@@ -15,7 +17,7 @@
           </div>
           <h1>{{character.name}}</h1>
           <div class="status">
-            <p> {{character.status}} - {{character.species}} - {{character.gender}}</p>
+            <i [style.color]="character.status==='Alive'?'lightgreen' :'grey'" class="fas fa-circle"></i><p> {{character.status}} - {{character.species}} - {{character.gender}}</p>
           </div>
         </div>
         <div class="origin">

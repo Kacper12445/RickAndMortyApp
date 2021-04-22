@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SerialCharacter } from 'src/app/shared/models/character';
-import { Info } from 'src/app/shared/models/Pagination';
+import { Info, Pagination } from 'src/app/shared/models/Pagination';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { SearchService } from 'src/app/shared/services/search.service';
 import { AlertService } from 'ngx-alerts';
@@ -19,7 +19,6 @@ export class SearchingPageComponent implements OnInit {
 
   constructor(public authService: AuthService, public searchService: SearchService, private alertService: AlertService) {
     this.getCharacters();
-    this.getLibId();
   }
 
   filter!: string;
@@ -52,10 +51,8 @@ export class SearchingPageComponent implements OnInit {
   }
 
   createLink(e) {
-    console.log(e.target.name)
     switch (e.target.name) {
       case "name": {
-        console.log("robi sie");
         this.linkTab.splice(0, 1, `${e.target.name}=${e.target.value}`)
         break;
       }
@@ -79,14 +76,28 @@ export class SearchingPageComponent implements OnInit {
   }
 
   findHero() {
-    this.link = `/${this.filter}/?${this.linkTab[0]}&${this.linkTab[1]}&${this.linkTab[2]}&${this.linkTab[3]}&${this.linkTab[4]}`
-    this.searchService.filterHero(this.link).subscribe(response => {
+    this.link = `${this.linkTab[0]}&${this.linkTab[1]}&${this.linkTab[2]}&${this.linkTab[3]}&${this.linkTab[4]}`
+    this.searchService.filterHero(this.searchService.heroUrl+this.link).subscribe(response => {
       this.filterResult = response.results;
-      console.log(this.filterResult);
+      this.info = response.info;
+      console.log(response.info);
+      for(let i = 2; i <= this.info.pages; i++)
+      {
+        this.searchService.filterHero(`${this.searchService.heroUrl}page=${i}&${this.link}`)
+        .subscribe(res => {
+          this.filterResult = [...this.filterResult, ...res.results];
+          this.info.next = res.info.next;
+          console.log(this.filterResult)
+          console.log(`${this.searchService.heroUrl}/page=${i}&${this.link}`);
+        })
+      }
     },
       error => {
         console.log(error);
       })
+  }
+  nextFoundPage(){
+
   }
 
   switchPage(e) {
@@ -107,7 +118,6 @@ export class SearchingPageComponent implements OnInit {
     console.log(this.index);
   }
 
-  //Przeniesc do serwisu zeby pobierac id przy przeniesieniu na inna strone i odrazu wywowal
   getLibId(){
     this.searchService.getIdFromLib().subscribe(response => {
       this.LibId = response;

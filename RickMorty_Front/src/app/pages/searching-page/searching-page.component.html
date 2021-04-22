@@ -16,12 +16,12 @@
         </div>
         <button (click)="findHero()">search</button>
         </div>
-        <button [routerLink]="['/library']" routerLinkActive="active" class="libButton">Go to library<i class="fas fa-arrow-right"></i> </button>
+        <button [routerLink]="['/library']" routerLinkActive="active" class="libButton"> Go to library<i class="fas fa-arrow-right"></i> </button>
 
       </div>
   <section class="library" >
     <div class="hero"
-    *ngFor="let character of characters  | filter:searchText let result of filterResult">
+    *ngFor="let character of characters; let result of filterResult">
       <div class="img">
         <img src="{{character.image}}">
       </div>

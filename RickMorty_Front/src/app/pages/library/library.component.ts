@@ -15,15 +15,16 @@ export class LibraryComponent implements OnInit {
   searchText!: string;
   filter!: string;
 
-  constructor(private searchService: SearchService, public authService: AuthService, private alertService: AlertService) {
+  constructor(public searchService: SearchService, public authService: AuthService, private alertService: AlertService) {
     this.getLibId();
   }
 
   ngOnInit(): void {
+
   }
 
   getLibId(){
-    this.searchService.getIdFromLib().subscribe(response => {
+   return this.searchService.getIdFromLib().subscribe(response => {
       this.libId = response;
     })
   }
@@ -38,18 +39,20 @@ export class LibraryComponent implements OnInit {
       }
     };
 
-    console.log(this.libHeroes.length)
-    this.searchService.sendToLibrary(hero.id, true).subscribe(deleteObserver);
+    this.libHeroes.splice(this.libHeroes.indexOf(hero.id), 1);
     this.makeLibLink();
+    this.searchService.sendToLibrary(hero.id, true).subscribe(deleteObserver);
     }
 
 
   makeLibLink(){
     this.getLibId();
-    this.searchService.getLibHero(this.libId.join()).subscribe(response => {
+    return this.searchService.getLibHero(this.libId.join()).subscribe(response => {
       this.libHeroes = response;
     }, error => {
       console.log(error);
     });
-    }
+  }
+
+
 }

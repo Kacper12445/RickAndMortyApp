@@ -12,33 +12,19 @@ export class SearchService {
 
   libraryCharacter!: SerialCharacter;
   rmUrl = environment.RickAndMortyUrl;
-  heroUrl = this.rmUrl + 'character';
+  heroUrl = this.rmUrl + 'character/?';
   libUrl = environment.LibraryUrl;
 
-
-
-  constructor(private httpClient: HttpClient) {}
-
-  // getHero(): Observable<SerialCharacter> {
-  //   return this.httpClient.get<SerialCharacter>(this.heroUrl);
-  // }
+  constructor(private httpClient: HttpClient) {
+  }
 
   getPagination(index: number = 1): Observable<Pagination> {
     return this.httpClient.get<Pagination>(this.heroUrl + `/?page=${index}`);
   }
 
   filterHero(link: string) {
-    console.log(link);
-    return this.httpClient.get<Pagination>(this.rmUrl + link)
-  }
+      return this.httpClient.get<Pagination>(link )
 
-  getIdFromLib(): Observable<Array<number>>{
-    let headers = new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json',
-    })
-    let options = { headers: headers };
-    return this.httpClient.get<Array<number>>(this.libUrl, options);
   }
 
   sendToLibrary(Id:number, ExistInLib: boolean) {
@@ -52,6 +38,7 @@ export class SearchService {
       console.log("dodano do biblioteki")
       console.log(ExistInLib);
       return this.httpClient.post(this.libUrl, JSON.stringify({id: Id}), options);
+
     }
     else{
       console.log("Usunięto z biblioteki");
@@ -62,4 +49,14 @@ export class SearchService {
   getLibHero(idArray):Observable<Array<SerialCharacter>>{
     return this.httpClient.get<Array<SerialCharacter>>(`${this.heroUrl}/${idArray}`);
   }
+
+  getIdFromLib(): Observable<Array<number>>{
+    let headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json',
+    })
+    let options = { headers: headers };
+    return this.httpClient.get<Array<number>>(this.libUrl, options);
+  }
+
 }
