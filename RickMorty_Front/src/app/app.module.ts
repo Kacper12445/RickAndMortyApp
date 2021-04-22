@@ -9,6 +9,7 @@ import { SearchingPageComponent } from './pages/searching-page/searching-page.co
 import { FormsModule } from '@angular/forms';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LibraryComponent } from './pages/library/library.component';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     AppComponent,
     HomeComponent,
     SearchingPageComponent,
+    LibraryComponent,
   ],
   imports: [
     BrowserModule,

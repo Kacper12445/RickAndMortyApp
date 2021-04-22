@@ -43,10 +43,6 @@ export class AuthService {
   changePage(path: string) {
     this.router.navigateByUrl(path);
   }
-
-  getHero(model: any) {
-    return this.http.get('https://rickandmortyapi.com/api/character/2');
-  }
 }
 
 

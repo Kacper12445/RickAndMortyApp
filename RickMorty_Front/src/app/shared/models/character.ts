@@ -7,6 +7,7 @@ export interface Origin {
 
 
 export interface SerialCharacter {
+  id: string;
   name: string;
   status: string;
   gender: string;

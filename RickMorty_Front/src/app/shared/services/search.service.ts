@@ -1,64 +1,65 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from './../../../environments/environment';
 import { SerialCharacter } from '../models/character';
 import { Pagination } from '../models/Pagination';
-import { Observable } from 'rxjs';
+import { Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchService {
 
-  libraryCharacter: SerialCharacter[] = [];
+  libraryCharacter!: SerialCharacter;
   rmUrl = environment.RickAndMortyUrl;
   heroUrl = this.rmUrl + 'character';
-  constructor(private httpClient: HttpClient) { }
+  libUrl = environment.LibraryUrl;
 
-  getHero(): Observable<SerialCharacter> {
-    return this.httpClient.get<SerialCharacter>(this.heroUrl);
-  }
+
+
+  constructor(private httpClient: HttpClient) {}
+
+  // getHero(): Observable<SerialCharacter> {
+  //   return this.httpClient.get<SerialCharacter>(this.heroUrl);
+  // }
 
   getPagination(index: number = 1): Observable<Pagination> {
     return this.httpClient.get<Pagination>(this.heroUrl + `/?page=${index}`);
   }
-
 
   filterHero(link: string) {
     console.log(link);
     return this.httpClient.get<Pagination>(this.rmUrl + link)
   }
 
-
-  addToLibrary(e) {
-    //sprawdzanie po end poincie czy jest w bibliotece jeslit ak to dodac jesli nie to usunac
-
-    console.log("Dodano do biblioteki");
-    console.log(e);
-
-    this.libraryCharacter.push(e);
-    console.log(this.libraryCharacter);
-
+  getIdFromLib(): Observable<Array<number>>{
+    let headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json',
+    })
+    let options = { headers: headers };
+    return this.httpClient.get<Array<number>>(this.libUrl, options);
   }
 
+  sendToLibrary(Id:number, ExistInLib: boolean) {
+  let headers = new HttpHeaders({
+    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    'Content-Type': 'application/json',
+    });
+    let options = { headers: headers };
 
+    if(ExistInLib === false){
+      console.log("dodano do biblioteki")
+      console.log(ExistInLib);
+      return this.httpClient.post(this.libUrl, JSON.stringify({id: Id}), options);
+    }
+    else{
+      console.log("Usunięto z biblioteki");
+      return this.httpClient.delete(this.libUrl + `${Id}`, options);
+    }
+  }
+
+  getLibHero(idArray):Observable<Array<SerialCharacter>>{
+    return this.httpClient.get<Array<SerialCharacter>>(`${this.heroUrl}/${idArray}`);
+  }
 }
-
-
-
-
-
-
-
-
-  // hero() {
-  //   this.getHero().subscribe((data: serialCharacter) => this.character = {
-  //     name: data.name,
-  //     status: data.status,
-  //     gender: data.gender,
-  //     species: data.species,
-  //     location: data.location,
-  //     imgUrl: data.imgUrl
-  //     // episodes: [data.episode]
-  //   });
-  // }

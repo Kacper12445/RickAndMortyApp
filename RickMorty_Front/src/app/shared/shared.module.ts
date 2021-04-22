@@ -7,11 +7,9 @@ import { NgProgressModule } from '@ngx-progressbar/core'
 import { BrowserModule } from '@angular/platform-browser';
 import { AlertModule } from 'ngx-alerts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LibraryComponent } from './components/library/library.component';
-
 
 @NgModule({
-  declarations: [NavComponent, HeaderComponent, LibraryComponent],
+  declarations: [NavComponent, HeaderComponent],
   imports: [
     CommonModule,
     RouterModule,

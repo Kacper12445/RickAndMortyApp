@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms'
 import { SerialCharacter } from 'src/app/shared/models/character';
 import { Info } from 'src/app/shared/models/Pagination';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { SearchService } from 'src/app/shared/services/search.service';
-import { FormBuilder } from '@angular/forms';
+import { AlertService } from 'ngx-alerts';
+
 
 
 
@@ -17,9 +17,11 @@ export class SearchingPageComponent implements OnInit {
 
   searchText;
 
-  constructor(public authService: AuthService, public searchService: SearchService, public fb: FormBuilder) {
+  constructor(public authService: AuthService, public searchService: SearchService, private alertService: AlertService) {
     this.getCharacters();
+    this.getLibId();
   }
+
   filter!: string;
   link!: string;
   linkTab: string[] = [];
@@ -27,16 +29,10 @@ export class SearchingPageComponent implements OnInit {
   info!: Info;
   characters!: SerialCharacter[];
   filterResult!: SerialCharacter[];
+  LibId : number[] = [];
+  existId!: boolean;
   min = 2;
   max = 34;
-
-  FilterForm = this.fb.group({
-    name: [''],
-    status: [''],
-    species: [''],
-    gender: [''],
-    type: [''],
-  });
 
   ngOnInit(): void {
   }
@@ -93,7 +89,6 @@ export class SearchingPageComponent implements OnInit {
       })
   }
 
-
   switchPage(e) {
     if (e.target.id == "next") {
       this.index++;
@@ -111,5 +106,32 @@ export class SearchingPageComponent implements OnInit {
     });
     console.log(this.index);
   }
+
+  //Przeniesc do serwisu zeby pobierac id przy przeniesieniu na inna strone i odrazu wywowal
+  getLibId(){
+    this.searchService.getIdFromLib().subscribe(response => {
+      this.LibId = response;
+    })
+  }
+
+  ifExist(Id: number){
+    this.getLibId();
+    console.log(this.LibId);
+    console.log(Id);
+    return (this.LibId.includes(Id))? true: false;
+  }
+
+  addToLibrary(e){
+    const libObserver = {
+      next: x => {
+        this.alertService.success('Added');
+      },
+      error: err => {
+        console.log(err);
+        this.alertService.danger('Deleted')
+      }
+    };
+    this.searchService.sendToLibrary(e.id, this.ifExist(e.id)).subscribe(libObserver);
+    }
 
 }
