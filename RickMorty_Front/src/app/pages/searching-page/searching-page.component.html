@@ -27,7 +27,7 @@
       </div>
       <div class="info">
         <div class="title">
-          <!-- [style.color]="ifExist(character.id)? 'yellow':'white'" -->
+          <!-- [style.color] = "ifExist(character.id) ? 'yellow' : 'none'" -->
           <div class="star" *ngIf="authService.loggedIn()">
             <i (click) = "addToLibrary(character)"  class="fas fa-star"></i>
           </div>

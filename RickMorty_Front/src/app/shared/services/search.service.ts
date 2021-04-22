@@ -12,7 +12,7 @@ export class SearchService {
 
   libraryCharacter!: SerialCharacter;
   rmUrl = environment.RickAndMortyUrl;
-  heroUrl = this.rmUrl + 'character/?';
+  heroUrl = this.rmUrl + 'character';
   libUrl = environment.LibraryUrl;
 
   constructor(private httpClient: HttpClient) {
@@ -47,6 +47,7 @@ export class SearchService {
   }
 
   getLibHero(idArray):Observable<Array<SerialCharacter>>{
+    console.log(`${this.heroUrl}${idArray}`);
     return this.httpClient.get<Array<SerialCharacter>>(`${this.heroUrl}/${idArray}`);
   }
 

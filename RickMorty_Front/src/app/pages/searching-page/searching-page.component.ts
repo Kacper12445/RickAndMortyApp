@@ -32,6 +32,7 @@ export class SearchingPageComponent implements OnInit {
   existId!: boolean;
   min = 2;
   max = 34;
+  findUrl = this.searchService.heroUrl + '/?';
 
   ngOnInit(): void {
   }
@@ -77,18 +78,18 @@ export class SearchingPageComponent implements OnInit {
 
   findHero() {
     this.link = `${this.linkTab[0]}&${this.linkTab[1]}&${this.linkTab[2]}&${this.linkTab[3]}&${this.linkTab[4]}`
-    this.searchService.filterHero(this.searchService.heroUrl+this.link).subscribe(response => {
+    this.searchService.filterHero(this.findUrl+this.link).subscribe(response => {
       this.filterResult = response.results;
       this.info = response.info;
       console.log(response.info);
       for(let i = 2; i <= this.info.pages; i++)
       {
-        this.searchService.filterHero(`${this.searchService.heroUrl}page=${i}&${this.link}`)
+        this.searchService.filterHero(`${this.findUrl}page=${i}&${this.link}`)
         .subscribe(res => {
           this.filterResult = [...this.filterResult, ...res.results];
           this.info.next = res.info.next;
           console.log(this.filterResult)
-          console.log(`${this.searchService.heroUrl}/page=${i}&${this.link}`);
+          console.log(`${this.searchService.heroUrl}/?page=${i}&${this.link}`);
         })
       }
     },
@@ -124,9 +125,10 @@ export class SearchingPageComponent implements OnInit {
     })
   }
 
-  ifExist(Id: number){
+  ifExist(Id){
     this.getLibId();
-    console.log(this.LibId);
+    // console.log(this.LibId);
+    // console.log(Id);
     console.log(Id);
     return (this.LibId.includes(Id))? true: false;
   }

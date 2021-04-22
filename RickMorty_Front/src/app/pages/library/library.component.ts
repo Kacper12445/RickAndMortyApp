@@ -42,7 +42,7 @@ export class LibraryComponent implements OnInit {
     this.libHeroes.splice(this.libHeroes.indexOf(hero.id), 1);
     this.makeLibLink();
     this.searchService.sendToLibrary(hero.id, true).subscribe(deleteObserver);
-    }
+  }
 
 
   makeLibLink(){
