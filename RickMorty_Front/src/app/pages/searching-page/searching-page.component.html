@@ -29,7 +29,8 @@
         <div class="title">
           <!-- [style.color] = "ifExist(character.id) ? 'yellow' : 'none'" -->
           <div class="star" *ngIf="authService.loggedIn()">
-            <i (click) = "addToLibrary(character)"  class="fas fa-star"></i>
+            <!-- <i (click) = "addToLibrary(character)"  class="fas fa-star"></i> -->
+            <i (click) = "addToLibrary(character)"  class="ifExist(character.id)? fas fa-minus-circle: fas fa-plus-circle"></i>
           </div>
           <h1>{{character.name}}</h1>
           <div class="status">

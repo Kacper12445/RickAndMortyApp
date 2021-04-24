@@ -15,6 +15,8 @@ export class SearchService {
   heroUrl = this.rmUrl + 'character';
   libUrl = environment.LibraryUrl;
 
+  libId: number[] = [];
+
   constructor(private httpClient: HttpClient) {
   }
 
@@ -59,5 +61,11 @@ export class SearchService {
     let options = { headers: headers };
     return this.httpClient.get<Array<number>>(this.libUrl, options);
   }
+
+  getLibId(){
+    return this.getIdFromLib().subscribe(response => {
+       this.libId = response;
+     })
+   }
 
 }

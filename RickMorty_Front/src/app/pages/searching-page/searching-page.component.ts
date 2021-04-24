@@ -28,13 +28,13 @@ export class SearchingPageComponent implements OnInit {
   info!: Info;
   characters!: SerialCharacter[];
   filterResult!: SerialCharacter[];
-  LibId : number[] = [];
   existId!: boolean;
   min = 2;
   max = 34;
   findUrl = this.searchService.heroUrl + '/?';
 
   ngOnInit(): void {
+    this.searchService.getLibId();
   }
 
   getFilter(e) {
@@ -97,9 +97,6 @@ export class SearchingPageComponent implements OnInit {
         console.log(error);
       })
   }
-  nextFoundPage(){
-
-  }
 
   switchPage(e) {
     if (e.target.id == "next") {
@@ -119,18 +116,15 @@ export class SearchingPageComponent implements OnInit {
     console.log(this.index);
   }
 
-  getLibId(){
-    this.searchService.getIdFromLib().subscribe(response => {
-      this.LibId = response;
-    })
-  }
+  // getLibId(){
+  //   this.searchService.getIdFromLib().subscribe(response => {
+  //     this.LibId = response;
+  //   })
+  // }
 
   ifExist(Id){
-    this.getLibId();
-    // console.log(this.LibId);
-    // console.log(Id);
-    console.log(Id);
-    return (this.LibId.includes(Id))? true: false;
+    this.searchService.getLibId();
+    return (this.searchService.libId.includes(Id))? true: false;
   }
 
   addToLibrary(e){

@@ -10,23 +10,17 @@ import { AlertService } from 'ngx-alerts';
   styleUrls: ['./library.component.sass']
 })
 export class LibraryComponent implements OnInit {
-  libId: number[] = [];
+
   libHeroes: SerialCharacter[] = [];
   searchText!: string;
   filter!: string;
 
   constructor(public searchService: SearchService, public authService: AuthService, private alertService: AlertService) {
-    this.getLibId();
+
   }
 
   ngOnInit(): void {
-
-  }
-
-  getLibId(){
-   return this.searchService.getIdFromLib().subscribe(response => {
-      this.libId = response;
-    })
+    this.makeLibLink();
   }
 
   deleteHero(hero){
@@ -39,15 +33,14 @@ export class LibraryComponent implements OnInit {
       }
     };
 
-    this.libHeroes.splice(this.libHeroes.indexOf(hero.id), 1);
-    this.makeLibLink();
+    this.libHeroes = this.libHeroes.filter( e => e !== hero);
     this.searchService.sendToLibrary(hero.id, true).subscribe(deleteObserver);
   }
 
 
   makeLibLink(){
-    this.getLibId();
-    return this.searchService.getLibHero(this.libId.join()).subscribe(response => {
+    this.searchService.getLibId();
+    return this.searchService.getLibHero(this.searchService.libId.join()).subscribe(response => {
       this.libHeroes = response;
     }, error => {
       console.log(error);
