@@ -17,6 +17,8 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
+  // Funkcja wysyłająca dane rejestracji z htmla do serwera
   onSubmit(f: NgForm) {
     this.progressBar.startLoading();
     this.alertService.info('Creating new account');

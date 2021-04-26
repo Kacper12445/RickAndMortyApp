@@ -15,33 +15,41 @@ import { AlertService } from 'ngx-alerts';
 })
 export class SearchingPageComponent implements OnInit {
 
-  searchText;
-
-  constructor(public authService: AuthService, public searchService: SearchService, private alertService: AlertService) {
-    this.getCharacters();
-  }
-
+// max -zmienna przechowujaca maksymalny numer strony pobierany z webAPI
+// min -zmienna przechowujaca minimalny numer strony pobierany z webAPI
+// findUrl - link używany do wysysylania zapytania o wyszukanie bohatera w webApi
+// filter - zmienna przechowujaca kategoria według której był wyszukiwany bohater (lokalizacja, odcinek, dane bohatera)
+// index - zmienna przechowujaca numer strony na ktorej obecnie jestesmy, uzywany do zmiany strony w wyszukiwaniu bohaterow
+// info / characters - zmienne do ktorych przypisywane sa strony pobierane z webApi
+// linkTab - tablica w ktorej przechowywana jest część linku (dana bohatera wedlug ktorej jest wyszukiwany)
+// filterResult - tablica przetrzymujaca bohaterow bedacych wynikiem wyszukiwania
   filter!: string;
-  link!: string;
   linkTab: string[] = [];
   index = 1;
   info!: Info;
   characters!: SerialCharacter[];
   filterResult!: SerialCharacter[];
-  existId!: boolean;
-  min = 2;
+  // existId!: boolean;
+  min = 1;
   max = 34;
   findUrl = this.searchService.heroUrl + '/?';
 
-  ngOnInit(): void {
+  constructor(public authService: AuthService, public searchService: SearchService, private alertService: AlertService) {
+    this.getCharacters();
     this.searchService.getLibId();
   }
 
+  ngOnInit(): void {
+  }
+
+  //Funkcja sprawdzająca wybrana kategorie wyszkiwania bohatera serialu. Używana w pliku html aby wyświetlić dane pola wybranej kategorii
   getFilter(e) {
     this.filter = (e.target.value).toLowerCase();
     return this.filter;
   }
 
+
+  // Funkcja w ktorej wysylamy zapytanie o numer strony (losowy po kazdym odświeżeniu) oraz przypisanie odpowiedzi do zmiennych - characters to bohaterowie danej strony wyświetlanie w html. Zapytanie jest wysyłane za pomocą wywołania funkcji getPagination
   getCharacters(): void {
     this.searchService.getPagination(Math.floor(Math.random() * (this.max - this.min + 1)) + this.min).subscribe(response => {
       this.info = response.info;
@@ -51,6 +59,8 @@ export class SearchingPageComponent implements OnInit {
     });
   }
 
+
+//Funkcja tworzy część linku potrzebną aby wyszukiwanie przebiegło pomyślnie. W momencie wpisania w dane pole wyszukiwania wartości , jest ona przypisana w dane miejsce w tablicy, które w innej funkcji jest wykorzystywane jako link Url w celu wysłania zapytania o bohatera na podstawie wpisanych przez nas danych. Splice w tablicy jest używany aby każde wartość danego pola była tylko jedna a zmiana na inną spowoduje nadpisanie wcześniejszej. Wynik funkcji jest zpisywany w zmiennej linkTab
   createLink(e) {
     switch (e.target.name) {
       case "name": {
@@ -76,20 +86,22 @@ export class SearchingPageComponent implements OnInit {
     }
   }
 
+
+  //Funkcja wyszukująca bohaterów na podstawie danych zgromadzonych z poprzednio opisanych funkcji np. createLink. Zapytanie wysyłane za pomocą wywołania funkcji filterHero
   findHero() {
-    this.link = `${this.linkTab[0]}&${this.linkTab[1]}&${this.linkTab[2]}&${this.linkTab[3]}&${this.linkTab[4]}`
-    this.searchService.filterHero(this.findUrl+this.link).subscribe(response => {
+    const link = `${this.linkTab[0]}&${this.linkTab[1]}&${this.linkTab[2]}&${this.linkTab[3]}&${this.linkTab[4]}`
+    this.searchService.filterHero(this.findUrl+link).subscribe(response => {
       this.filterResult = response.results;
       this.info = response.info;
       console.log(response.info);
       for(let i = 2; i <= this.info.pages; i++)
       {
-        this.searchService.filterHero(`${this.findUrl}page=${i}&${this.link}`)
+        this.searchService.filterHero(`${this.findUrl}page=${i}&${link}`)
         .subscribe(res => {
           this.filterResult = [...this.filterResult, ...res.results];
           this.info.next = res.info.next;
           console.log(this.filterResult)
-          console.log(`${this.searchService.heroUrl}/?page=${i}&${this.link}`);
+          console.log(`${this.searchService.heroUrl}/?page=${i}&${link}`);
         })
       }
     },
@@ -98,6 +110,8 @@ export class SearchingPageComponent implements OnInit {
       })
   }
 
+
+//Funkcja odpowiedzialna za zmianę stron . Wszyscy bohaterowie serialu są podzieleni na 34 strony. Funkcja getPagination zwraca nam jedną z nich o indeksie podanych jako argument. Przy pierwszym wywołaniu jest to numer losowy , jednakże przy użyciu tej funkcji możemy zmieniać strony za pomocą strzałek w html.Gdy strona będzie miała 35 indeks to zwracamy do początku natomiast gdy strona będzie miała 0 indeks to przenosimy się na ostatnią stronę
   switchPage(e) {
     if (e.target.id == "next") {
       this.index++;
@@ -113,31 +127,31 @@ export class SearchingPageComponent implements OnInit {
     }, error => {
       console.log(error);
     });
-    console.log(this.index);
   }
 
-  // getLibId(){
-  //   this.searchService.getIdFromLib().subscribe(response => {
-  //     this.LibId = response;
-  //   })
-  // }
 
+  //Funkcja informująca nas czy Id podane w argumencie funkcji znajduje się w tablicy id bohaterów dodanych do biblioteki.
   ifExist(Id){
-    this.searchService.getLibId();
     return (this.searchService.libId.includes(Id))? true: false;
   }
 
-  addToLibrary(e){
+
+  //Funkcja w głównej mierze polega na funkcji sendToLibrary która wysyła żądanie o dodanie lub usunięcie bohatera z biblioteki. Jeśli bohater już się w niej znajduje to jest on z niej usuwany natomiast jeśli się w niej nie znajduje to zostaje dodany. O tym czy zostanie usunięty czy dodany decyduje funkcja ifExist zwracająca odpowiedź czy taki bohater już istnieje w bibliotece
+  addToLibrary(hero){
     const libObserver = {
       next: x => {
-        this.alertService.success('Added');
+        this.alertService.success('Operation done');
       },
       error: err => {
         console.log(err);
-        this.alertService.danger('Deleted')
+        this.alertService.danger('Error')
       }
     };
-    this.searchService.sendToLibrary(e.id, this.ifExist(e.id)).subscribe(libObserver);
+    this.searchService.sendToLibrary(hero.id, this.ifExist(hero.id)).subscribe(libObserver);
     }
+
+  cleanSearching(){
+    this.getCharacters();
+  }
 
 }

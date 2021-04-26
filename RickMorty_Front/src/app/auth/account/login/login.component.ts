@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // Funkcja wysyłająca dane logowania z htmla do serwera
   onSubmit(f: NgForm) {
     this.progressBar.startLoading();
     this.alertService.info('Checking user info');

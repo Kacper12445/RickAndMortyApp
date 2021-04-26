@@ -11,36 +11,41 @@ import { AlertService } from 'ngx-alerts';
 })
 export class LibraryComponent implements OnInit {
 
+
+  // libHeroes - tablica przechowująca bohaterów dodanych biblioteki pobranych z web Api
+  // searchText - zmienna używana do wyszukiwania bohaterów danej strony
   libHeroes: SerialCharacter[] = [];
   searchText!: string;
-  filter!: string;
 
   constructor(public searchService: SearchService, public authService: AuthService, private alertService: AlertService) {
-
+    this.searchService.getLibId();
   }
 
   ngOnInit(): void {
     this.makeLibLink();
+
   }
 
+  //Funkcja realizująca usuwanie bohatera z biblioteki, drugi argument funkcji sendToLibrary jest ustawiony na true co oznacza ze funkcja sendToLibary usunie obiekt zamiast wysyłać żądania o ponowne dodanie (oraz zwrócenie błędu)
   deleteHero(hero){
     const deleteObserver = {
       next: x => {
         this.alertService.success('Deleted');
       },
       error: err => {
-        this.alertService.danger('Already Deleted')
+        console.log(err);
+        this.alertService.danger('Something went wrong')
       }
     };
 
-    this.libHeroes = this.libHeroes.filter( e => e !== hero);
+    this.libHeroes = this.libHeroes.filter( e => e !== hero);   //Usunięcie z html na bieżąco
     this.searchService.sendToLibrary(hero.id, true).subscribe(deleteObserver);
   }
 
-
+// Funkcja, która wysyła żądanie za pomocą wywołania funkcji getLibHero a następnie przypisuje rezultat operacji do tablicy bohaterów
   makeLibLink(){
     this.searchService.getLibId();
-    return this.searchService.getLibHero(this.searchService.libId.join()).subscribe(response => {
+    this.searchService.getLibHero(this.searchService.libId.join()).subscribe(response => {
       this.libHeroes = response;
     }, error => {
       console.log(error);

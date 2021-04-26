@@ -1,4 +1,7 @@
 <div class="heroes">
+  <div class="goBack">
+    <a [routerLink]="['/searching']" routerLinkActive="active"><i class="fas fa-long-arrow-alt-left"></i></a>
+  </div>
   <div class="search">
     <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Search on this page">
   </div>
