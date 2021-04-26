@@ -5,9 +5,9 @@
   <div class="search">
     <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Search on this page">
   </div>
-  <div class="showHeroes">
+  <!-- <div class="showHeroes">
     <button (click) = "makeLibLink()">Show my Library</button>
-  </div>
+  </div> -->
   <section class="library" >
     <div class="hero" *ngFor="let character of libHeroes | filter:searchText ">
       <div class="img">

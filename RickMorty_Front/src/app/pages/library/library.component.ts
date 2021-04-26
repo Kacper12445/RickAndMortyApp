@@ -3,6 +3,7 @@ import { SearchService } from 'src/app/shared/services/search.service';
 import { SerialCharacter } from 'src/app/shared/models/character';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { AlertService } from 'ngx-alerts';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-library',
@@ -18,11 +19,10 @@ export class LibraryComponent implements OnInit {
   searchText!: string;
 
   constructor(public searchService: SearchService, public authService: AuthService, private alertService: AlertService) {
-    this.searchService.getLibId();
   }
 
   ngOnInit(): void {
-    this.makeLibLink();
+    this.refreshHeroes();
 
   }
 
@@ -50,6 +50,13 @@ export class LibraryComponent implements OnInit {
     }, error => {
       console.log(error);
     });
+  }
+
+  //Aktualizowanie listy bohaterów
+  refreshHeroes(){
+    timer(500).subscribe(() => {
+      this.makeLibLink();
+    })
   }
 
 
