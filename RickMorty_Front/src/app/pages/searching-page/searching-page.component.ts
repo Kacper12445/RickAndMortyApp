@@ -23,6 +23,12 @@ export class SearchingPageComponent implements OnInit {
 // info / characters - zmienne do ktorych przypisywane sa strony pobierane z webApi
 // linkTab - tablica w ktorej przechowywana jest część linku (dana bohatera wedlug ktorej jest wyszukiwany)
 // filterResult - tablica przetrzymujaca bohaterow bedacych wynikiem wyszukiwania
+// name - zmienna przechowująca wartość inputa o nazwie name
+// species - zmienna przechowująca wartość inputa o nazwie species
+// gender - zmienna przechowująca wartość inputa o nazwie gender
+// status - zmienna przechowująca wartość inputa o nazwie status
+// type - zmienna przechowująca wartość inputa o nazwie type
+
   filter!: string;
   linkTab: string[] = [];
   index = 1;
@@ -33,6 +39,11 @@ export class SearchingPageComponent implements OnInit {
   min = 1;
   max = 34;
   findUrl = this.searchService.heroUrl + '/?';
+  name!: string;
+  species!: string;
+  gender!: string;
+  status!: string;
+  type!: string;
 
   constructor(public authService: AuthService, public searchService: SearchService, private alertService: AlertService) {
     this.getCharacters();
@@ -150,8 +161,21 @@ export class SearchingPageComponent implements OnInit {
     this.searchService.sendToLibrary(hero.id, this.ifExist(hero.id)).subscribe(libObserver);
     }
 
+
+  //Funkcja usuwająca wartość z pola input
+  cleanInput(){
+    this.name = '';
+    this.gender = '';
+    this.species = '';
+    this.type = '';
+    this.status = '';
+  }
+
+//Funkcja powodująca wyczyszczenie pól input a następnie zastąpienie strony z rezultatu wyszkiwań na losową strone bohaterów z web Api
   cleanSearching(){
+    this.cleanInput();
     this.getCharacters();
+
   }
 
 }

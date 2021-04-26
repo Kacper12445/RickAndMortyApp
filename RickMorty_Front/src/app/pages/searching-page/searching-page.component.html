@@ -7,12 +7,12 @@
           <option (click)="getFilter($event)">Episode</option>
         </select>
         <div class="inputDiv" *ngIf="this.filter">
-            <input (change)="createLink($event)" name = "name" placeholder='name'>
+            <input [(ngModel)]="name" (change)="createLink($event)" name = "name" placeholder='name'>
           <div *ngIf= "this.filter === 'character' " class="heroFilter">
-            <input (change)="createLink($event)" name = "status" placeholder='status'>
-            <input (change)="createLink($event)" name = "species" placeholder='species'>
-            <input (change)="createLink($event)" name = "type" placeholder='type'>
-            <input (change)="createLink($event)" name = "gender" placeholder='gender'>
+            <input [(ngModel)]="status" (change)="createLink($event)" name = "status" placeholder='status'>
+            <input [(ngModel)]="species" (change)="createLink($event)" name = "species" placeholder='species'>
+            <input [(ngModel)]="type" (change)="createLink($event)" name = "type" placeholder='type'>
+            <input [(ngModel)]="gender" (change)="createLink($event)" name = "gender" placeholder='gender'>
         </div>
         <button class="cleaner" (click) = "cleanSearching()">Clean</button>
         <button (click)="findHero()">Search</button>
