@@ -13,9 +13,11 @@ import { timer } from 'rxjs';
 export class LibraryComponent implements OnInit {
 
 
-  // libHeroes - tablica przechowująca bohaterów dodanych biblioteki pobranych z web Api
-  // searchText - zmienna używana do wyszukiwania bohaterów danej strony
-  libHeroes: SerialCharacter[] = [];
+  /**
+   * libHeroes - tablica przechowująca bohaterów dodanych biblioteki pobranych z web Api
+   * searchText - zmienna używana do wyszukiwania bohaterów danej strony
+  */
+   libHeroes: SerialCharacter[] = [];
   searchText!: string;
 
   constructor(public searchService: SearchService, public authService: AuthService, private alertService: AlertService) {
@@ -26,7 +28,11 @@ export class LibraryComponent implements OnInit {
 
   }
 
-  //Funkcja realizująca usuwanie bohatera z biblioteki, drugi argument funkcji sendToLibrary jest ustawiony na true co oznacza ze funkcja sendToLibary usunie obiekt zamiast wysyłać żądania o ponowne dodanie (oraz zwrócenie błędu)
+  /**
+   * Funkcja realizująca usuwanie bohatera z biblioteki, drugi argument funkcji sendToLibrary jest ustawiony na true co oznacza ze funkcja
+   * sendToLibary usunie obiekt zamiast wysyłać żądania o ponowne dodanie (oraz zwrócenie błędu)
+   *
+  */
   deleteHero(hero){
     const deleteObserver = {
       next: x => {
@@ -42,7 +48,9 @@ export class LibraryComponent implements OnInit {
     this.searchService.sendToLibrary(hero.id, true).subscribe(deleteObserver);
   }
 
-// Funkcja, która wysyła żądanie za pomocą wywołania funkcji getLibHero a następnie przypisuje rezultat operacji do tablicy bohaterów
+/**
+ * Funkcja, która wysyła żądanie za pomocą wywołania funkcji getLibHero a następnie przypisuje rezultat operacji do tablicy bohaterów
+*/
   makeLibLink(){
     this.searchService.getLibId();
     this.searchService.getLibHero(this.searchService.libId.join()).subscribe(response => {
@@ -52,7 +60,9 @@ export class LibraryComponent implements OnInit {
     });
   }
 
-  //Aktualizowanie listy bohaterów
+  /**
+   * Aktualizowanie listy bohaterów
+   */
   refreshHeroes(){
     timer(500).subscribe(() => {
       this.makeLibLink();

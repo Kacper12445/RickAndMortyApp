@@ -18,6 +18,9 @@ export class HeaderComponent implements OnInit {
     this.progressBar.progressRef = this.progress.ref("progressBar")
   }
 
+  /**
+   * Funkcja wylogowywująca użytkownika poprzez usunięcie tokenu z pamięci lokalnej
+   */
   logout() {
     localStorage.removeItem('token');
     this.alertService.success("Logged Out");

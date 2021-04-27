@@ -1,5 +1,5 @@
 {
-  "name": "life-changer",
+  "name": "rickandmorty",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "compodoc": "npx compodoc -p tsconfig.doc.json"
   },
   "private": true,
   "dependencies": {
@@ -33,6 +34,7 @@
     "@angular-devkit/build-angular": "^0.1102.8",
     "@angular/cli": "~11.2.4",
     "@angular/compiler-cli": "~11.2.5",
+    "@compodoc/compodoc": "^1.1.11",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",

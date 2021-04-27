@@ -10,13 +10,14 @@ import { Observable} from 'rxjs';
 })
 export class SearchService {
 
-  //libraryCharacter - tablica obiektów typu SerialCharacter w której przechowywani są bohaterowie serialu dodani do biblioteki
-  // rmUrl - link do webApi
-  // heroUrl - link do webApi wyszczegółowiony do kategorii bohaterów
-  // libUrl - link do api serwera do którego wysyłane są żądania operacji związanych z biblioteką
-  // libId - tablica w której przechowywane są Id bohaterów, którzy są dodani do biblioteki
+  /**
+   * libraryCharacter - tablica obiektów typu SerialCharacter w której przechowywani są bohaterowie serialu dodani do biblioteki
+   * rmUrl - link do webApi
+   * heroUrl - link do webApi wyszczegółowiony do kategorii bohaterów
+   * libUrl - link do api serwera do którego wysyłane są żądania operacji związanych z biblioteką
+   * libId - tablica w której przechowywane są Id bohaterów, którzy są dodani do biblioteki
+  */
 
-  // libraryCharacter!: SerialCharacter;
   rmUrl = environment.RickAndMortyUrl;
   heroUrl = this.rmUrl + 'character';
   libUrl = environment.LibraryUrl;
@@ -26,18 +27,24 @@ export class SearchService {
   }
 
 
-  //Funkcja wysyłająca żadanie o dany numer strony bohaterów , jeśli nie podamy nic w argumencie to zwrócona będzie pierwsza strona
+  /**
+   * Funkcja wysyłająca żadanie o dany numer strony bohaterów , jeśli nie podamy nic w argumencie to zwrócona będzie pierwsza strona
+  */
   getPagination(index: number = 1): Observable<Pagination> {
     return this.httpClient.get<Pagination>(this.heroUrl + `/?page=${index}`);
   }
 
-  //Funkcja wysyłająca żądanie o wyszukiwanie, które jest podane w linku
+  /**
+   * Funkcja wysyłająca żądanie o wyszukiwanie, które jest podane w linku
+  */
   filterHero(link: string) {
       return this.httpClient.get<Pagination>(link )
 
   }
 
-  // Wysyłanie do end pointa Serwera żądania o dodanie bądź usunięcie bohatera z biblioteki. W żądaniu wymagane jest bycie zalogowanym
+  /**
+   * Wysyłanie do end pointa Serwera żądania o dodanie bądź usunięcie bohatera z biblioteki. W żądaniu wymagane jest bycie zalogowanym
+  */
   sendToLibrary(Id:number, ExistInLib: boolean) {
   let headers = new HttpHeaders({
     'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -57,12 +64,16 @@ export class SearchService {
   }
 
 
-  //Funkcja wysyłająca żądanie o bohaterów, których id znajdują sie w bibliotece
+  /**
+   * Funkcja wysyłająca żądanie o bohaterów, których id znajdują sie w bibliotece
+  */
   getLibHero(idArray):Observable<Array<SerialCharacter>>{
     return this.httpClient.get<Array<SerialCharacter>>(`${this.heroUrl}/${idArray}`);
   }
 
-  // Funkcja wysyłająca żądanie do serwera o Id bohaterów znajdujących się w bibliotece
+  /**
+   * Funkcja wysyłająca żądanie do serwera o Id bohaterów znajdujących się w bibliotece
+  */
   getIdFromLib(): Observable<Array<number>>{
     let headers = new HttpHeaders({
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -73,7 +84,9 @@ export class SearchService {
   }
 
 
-  //Funkcja przypisująca wynik żądania funkcji getIdFromLib do tablicy
+  /**
+   * Funkcja przypisująca wynik żądania funkcji getIdFromLib do tablicy
+  */
   getLibId(){
     return this.getIdFromLib().subscribe(response => {
        this.libId = response;
