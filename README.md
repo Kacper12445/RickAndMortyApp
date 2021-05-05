@@ -6,4 +6,4 @@ We are able to search every hero by :
 - localization
 - episode
 - character data (name, status, species, type, gender)
-Then we can add them to library where are put all followed by us characters. 
+Then we can add them to library(if we are logged in) where are put all followed by us characters. 
