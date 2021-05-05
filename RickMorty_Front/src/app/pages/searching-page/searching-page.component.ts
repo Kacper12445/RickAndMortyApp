@@ -201,6 +201,7 @@ export class SearchingPageComponent implements OnInit {
  * Funkcja powodująca wyczyszczenie pól input a następnie zastąpienie strony z rezultatu wyszkiwań na losową strone bohaterów z web Api
  * */
   cleanSearching(){
+    this.linkTab.length = 0;
     this.cleanInput();
     this.getCharacters();
 
